@@ -7,7 +7,7 @@
   "manual": "https://sorputi.github.io/talkweave/downloads/talkweave-tutorial.md",
   "package": {
     "url": "https://sorputi.github.io/talkweave/downloads/talkweave.zip",
-    "sha256": "afb02d1c052d6e368aa6ecb237006a23db8583a7ef8890fb196172d9dc8e2d07"
+    "sha256": "e44635679bf57510d9e6a6fcfcfeba2217462ed964abaa9696b9d85bf1321e37"
   },
   "run": "python run.py",
   "resume": "python run.py --resume",

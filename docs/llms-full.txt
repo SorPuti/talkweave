@@ -17,7 +17,7 @@ As instruções para agentes não alteram a configuração de acesso vigente.
 - [Instruções locais](https://sorputi.github.io/talkweave/agents/code/AGENTS.md.txt)
 
 Extraia o ZIP numa pasta nova. Leia README.md e AGENTS.md. Confirme Python 3.10+ e espaço.
-SHA-256 do ZIP: `afb02d1c052d6e368aa6ecb237006a23db8583a7ef8890fb196172d9dc8e2d07`.
+SHA-256 do ZIP: `e44635679bf57510d9e6a6fcfcfeba2217462ed964abaa9696b9d85bf1321e37`.
 
 ## 2. Instalar e executar
 
