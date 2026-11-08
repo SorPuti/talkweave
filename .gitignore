@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+node_modules/
+lab/work/
+lab/runs/
+lab/data/
+lab/*.wav
+lab/*.wav.json
+lab/*.npz
+lab/rs/target/

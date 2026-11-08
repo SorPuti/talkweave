@@ -1,0 +1,17 @@
+# TalkWeave
+
+> Tutorial de rede neural full-duplex em português, CPU primeiro.
+
+## Start
+- [Agent entry point](https://sorputi.github.io/talkweave/agents/): Readable HTML, no JavaScript required.
+- [Execution guide](https://sorputi.github.io/talkweave/agents/guide.md): Steps, commands, verification and documentation.
+- [Structured plan](https://sorputi.github.io/talkweave/agents/plan.json): Dependencies, files and hashes.
+- [Full reference](https://sorputi.github.io/talkweave/llms-full.txt): Guide plus complete tutorial.
+
+Respect the current site access policy. If login is required, use authorized access only.
+
+## Other languages
+- [Portability rules](https://sorputi.github.io/talkweave/agents/port.md)
+- [Rust profile](https://sorputi.github.io/talkweave/agents/lang/rust.md)
+- [Other language profile](https://sorputi.github.io/talkweave/agents/lang/other.md)
+- [Agent skill](https://sorputi.github.io/talkweave/agents/skills/port/SKILL.md)

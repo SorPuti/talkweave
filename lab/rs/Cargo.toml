@@ -1,0 +1,8 @@
+[package]
+name = "duplex-port"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+path = "src/lib.rs"

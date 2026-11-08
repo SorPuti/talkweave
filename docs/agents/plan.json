@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "language": "pt-BR",
+  "scope": "CPU synthetic engineering lab; no human voice quality claim",
+  "entrypoint": "https://sorputi.github.io/talkweave/agents/",
+  "guide": "https://sorputi.github.io/talkweave/agents/guide.md",
+  "manual": "https://sorputi.github.io/talkweave/downloads/talkweave-tutorial.md",
+  "package": {
+    "url": "https://sorputi.github.io/talkweave/downloads/talkweave.zip",
+    "sha256": "afb02d1c052d6e368aa6ecb237006a23db8583a7ef8890fb196172d9dc8e2d07"
+  },
+  "run": "python run.py",
+  "resume": "python run.py --resume",
+  "console": "python run.py --ui",
+  "reports": [
+    "work/talkweave-demo/REPORT.md",
+    "work/talkweave-demo/report.json",
+    "work/talkweave-demo/logs/"
+  ],
+  "steps": [
+    {
+      "id": "01-baseline",
+      "command": "python src/baseline.py",
+      "requires": [],
+      "expected_files": [
+        "baseline.npz"
+      ],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#logistica"
+    },
+    {
+      "id": "02-fixture",
+      "command": "python src/fixture.py",
+      "requires": [
+        "01-baseline"
+      ],
+      "expected_files": [
+        "data/train.jsonl",
+        "data/validation.jsonl"
+      ],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#dados"
+    },
+    {
+      "id": "03-tests",
+      "command": "python -m pytest -q",
+      "requires": [
+        "02-fixture"
+      ],
+      "expected_files": [],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#rede"
+    },
+    {
+      "id": "04-codec",
+      "command": "python src/train.py codec --manifest data/train.jsonl --validation data/validation.jsonl --steps 100",
+      "requires": [
+        "03-tests"
+      ],
+      "expected_files": [
+        "runs/codec.pt"
+      ],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#codec"
+    },
+    {
+      "id": "05-reconstruction",
+      "command": "python src/reconstruct.py --input data/validation-user.wav --output reconstructed.wav",
+      "requires": [
+        "04-codec"
+      ],
+      "expected_files": [
+        "reconstructed.wav"
+      ],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#codec"
+    },
+    {
+      "id": "06-duplex",
+      "command": "python src/train.py duplex --manifest data/train.jsonl --validation data/validation.jsonl --steps 100",
+      "requires": [
+        "05-reconstruction"
+      ],
+      "expected_files": [
+        "runs/duplex.pt"
+      ],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#treino"
+    },
+    {
+      "id": "07-generation",
+      "command": "python src/infer.py --input data/validation-user.wav --output reply.wav",
+      "requires": [
+        "06-duplex"
+      ],
+      "expected_files": [
+        "reply.wav",
+        "reply.wav.json"
+      ],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#resposta"
+    },
+    {
+      "id": "08-evaluation",
+      "command": "python src/evaluate.py --manifest data/validation.jsonl --report reply.wav.json",
+      "requires": [
+        "07-generation"
+      ],
+      "expected_files": [],
+      "verify": "Exit code 0, log persisted, expected files present and hashed. Does not establish voice quality.",
+      "chapter": "https://sorputi.github.io/talkweave/#avaliacao"
+    }
+  ],
+  "files": [
+    {
+      "path": ".agents/skills/port/SKILL.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/.agents/skills/port/SKILL.md.txt",
+      "sha256": "3d1eab9ae45ee872adf9b09b49ba2139a12504e74ff109a0e8fa67070b69f3ef"
+    },
+    {
+      "path": "AGENTS.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/AGENTS.md.txt",
+      "sha256": "856f22c1e1551ae8795c494871047b2f85028a985981c471c9597cdf4a83968b"
+    },
+    {
+      "path": "README.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/README.md.txt",
+      "sha256": "a723de03ab431eddc05903285001d785a03d9d055e8fbd3db008eff64b8e74bf"
+    },
+    {
+      "path": "TUTORIAL.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/TUTORIAL.md.txt",
+      "sha256": "783bbf92d0e0733c086d4483fd2905089bd1e8f51a0f1e164bc1420f6ee22221"
+    },
+    {
+      "path": "cfg/README.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/cfg/README.md.txt",
+      "sha256": "7ed1dd86c6ac36559c87fa6feeda064d0455951a21af1202537cacdbacf6efaf"
+    },
+    {
+      "path": "docs/lang/other.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/docs/lang/other.md.txt",
+      "sha256": "43c65f913ee42123191411e6147760886442ae347958f78c8991bfe44618b68e"
+    },
+    {
+      "path": "docs/lang/rust.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/docs/lang/rust.md.txt",
+      "sha256": "fe3d3be0cd95eeb25b1c3cc4fd3376eadd4822933c0b0274de749d83508a5240"
+    },
+    {
+      "path": "docs/port.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/docs/port.md.txt",
+      "sha256": "e432b8bad627e7281d051adfcd048333f1db1981c8912b81d891bdefdd9a9ac1"
+    },
+    {
+      "path": "docs/report.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/docs/report.md.txt",
+      "sha256": "1a7305ab0726075d6e6c1a980fd027abb30dc47e4d58b7c35904bdaa0d59c5e3"
+    },
+    {
+      "path": "docs/style.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/docs/style.md.txt",
+      "sha256": "b2ea1a6ce278ee137eac2740890182bdf491f453fff0a40041a9358aef6f2962"
+    },
+    {
+      "path": "pytest.ini",
+      "url": "https://sorputi.github.io/talkweave/agents/code/pytest.ini.txt",
+      "sha256": "d6e3e89cc6aab7944c11e4a14fb0a4db51c9ae36606bf263f47b7a9378f6de65"
+    },
+    {
+      "path": "requirements.txt",
+      "url": "https://sorputi.github.io/talkweave/agents/code/requirements.txt.txt",
+      "sha256": "a8b0d7223f78c45542c674ef644c03e1289c646b1fd5f710267a204ba24006dd"
+    },
+    {
+      "path": "rs/README.md",
+      "url": "https://sorputi.github.io/talkweave/agents/code/rs/README.md.txt",
+      "sha256": "3e83672549260b80602a851ecf08408df4390c5fc477630ddc998953e98143de"
+    },
+    {
+      "path": "run.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/run.py.txt",
+      "sha256": "3d036ec350490e06b2a6703d266f6f369035544003440ddf361adc3aeb12d67c"
+    },
+    {
+      "path": "src/api.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/api.py.txt",
+      "sha256": "63e287b26d0a749498da6714b182e366edb0ba74923e63b661cb0ae11ab03a6a"
+    },
+    {
+      "path": "src/baseline.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/baseline.py.txt",
+      "sha256": "67e2bc627a8586af4b4eb7259bf9f635681ebacd97012aeba0994b19d8ab63d6"
+    },
+    {
+      "path": "src/core.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/core.py.txt",
+      "sha256": "2a0552637d203c98c735422045f9207a4d0742f0c3232f4208cec812dff03516"
+    },
+    {
+      "path": "src/evaluate.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/evaluate.py.txt",
+      "sha256": "c075ea3c78fe7673bb80897b9836e6d30e449127218776bae54fc55e75b8cfb2"
+    },
+    {
+      "path": "src/fixture.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/fixture.py.txt",
+      "sha256": "fbff0dd8fe09283ac47875d8dd84d3993ffa2c30b55e32fb37b81a06878ae447"
+    },
+    {
+      "path": "src/infer.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/infer.py.txt",
+      "sha256": "0de284add9f6a29bd9927eb2cef7e82493df6e467efb6f3fa6c0b93f8a4902ea"
+    },
+    {
+      "path": "src/protocol.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/protocol.py.txt",
+      "sha256": "6e6ca454f793fd9950e0af8211056aa4a0fb46055f5cf42302ef2cd6a0169934"
+    },
+    {
+      "path": "src/reconstruct.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/reconstruct.py.txt",
+      "sha256": "8e0413b6730811a9619eb896d5af4f8804977ea3fb3c0f3991f029346fab67e7"
+    },
+    {
+      "path": "src/record.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/record.py.txt",
+      "sha256": "4b632a170b01aa625aee463fd0ea4b1ddf8d7892e2f17a55c7fe03fab6e02bdb"
+    },
+    {
+      "path": "src/train.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/train.py.txt",
+      "sha256": "327d4a59e3badc940c30b3c35ddd54997e9a4d0984ffa040643ae2228486d2a1"
+    },
+    {
+      "path": "src/ui.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/src/ui.py.txt",
+      "sha256": "ea345425f9d21cb0213e6edeabbae4b29d2afc0b19cebb6cb102c96325158782"
+    },
+    {
+      "path": "tests/test_api.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/tests/test_api.py.txt",
+      "sha256": "a6355c45e7d3ded4b8027e40f4700f965c2d9a697d8c3e106d51284a38b2de0a"
+    },
+    {
+      "path": "tests/test_core.py",
+      "url": "https://sorputi.github.io/talkweave/agents/code/tests/test_core.py.txt",
+      "sha256": "e9d8ec627ee06c9357898aa1b952ada8753f99ab327d293b3dd46afc018a75f6"
+    },
+    {
+      "path": "verified-environment.txt",
+      "url": "https://sorputi.github.io/talkweave/agents/code/verified-environment.txt.txt",
+      "sha256": "2eb1364a2cb53f6d51e699a9a62a764edc1b71c97bd20d22e9e3113fd2f9e26e"
+    },
+    {
+      "path": "rs/Cargo.toml",
+      "url": "https://sorputi.github.io/talkweave/agents/code/rs/Cargo.toml.txt",
+      "sha256": "40ca8be3823f24dd53f92c9719232237f60864c4bbacf9444d73262c53d19de7"
+    },
+    {
+      "path": "rs/src/lib.rs",
+      "url": "https://sorputi.github.io/talkweave/agents/code/rs/src/lib.rs.txt",
+      "sha256": "54608ed612717969377454af8caecfeaa856b3aca81dd6eb89ad429139049feb"
+    },
+    {
+      "path": "cfg/wire.json",
+      "url": "https://sorputi.github.io/talkweave/agents/code/cfg/wire.json.txt",
+      "sha256": "6a4c188e8fe8938c2db6cbb61e62c312a87b1ce426dfdba89dbffb8415821cce"
+    }
+  ],
+  "access": "Respect the current site access policy; if login is required, use authorized access only.",
+  "language_profiles": {
+    "python": {
+      "status": "reference-tested-cpu",
+      "entry": "https://sorputi.github.io/talkweave/agents/guide.md",
+      "run": "python run.py"
+    },
+    "rust": {
+      "status": "adaptation-guide-and-wire-starter; compiler-unverified; no neural backend",
+      "entry": "https://sorputi.github.io/talkweave/agents/lang/rust.md",
+      "starter": "rs/",
+      "checks": [
+        "cargo fmt --check",
+        "cargo test",
+        "cargo clippy --all-targets -- -D warnings"
+      ]
+    },
+    "other": {
+      "status": "language-neutral-adaptation-guide",
+      "entry": "https://sorputi.github.io/talkweave/agents/lang/other.md"
+    }
+  },
+  "port_skill": "https://sorputi.github.io/talkweave/agents/skills/port/SKILL.md"
+}

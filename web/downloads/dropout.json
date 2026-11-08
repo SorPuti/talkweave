@@ -1,0 +1,60 @@
+{
+  "scope": "synthetic tone fixture, one seed, not human speech quality",
+  "steps": 100,
+  "seed": 7,
+  "off": [
+    {
+      "step": 1,
+      "loss": 9.4258451461792,
+      "validation_loss": 9.170353889465332
+    },
+    {
+      "step": 25,
+      "loss": 2.1212942600250244,
+      "validation_loss": 3.037565231323242
+    },
+    {
+      "step": 50,
+      "loss": 0.949921727180481,
+      "validation_loss": 3.9162685871124268
+    },
+    {
+      "step": 75,
+      "loss": 0.5910598039627075,
+      "validation_loss": 4.634428024291992
+    },
+    {
+      "step": 100,
+      "loss": 0.41977450251579285,
+      "validation_loss": 4.782999515533447
+    }
+  ],
+  "on_0_1": [
+    {
+      "step": 1,
+      "loss": 9.43786907196045,
+      "validation_loss": 9.180588722229004
+    },
+    {
+      "step": 25,
+      "loss": 2.2535436153411865,
+      "validation_loss": 3.0071680545806885
+    },
+    {
+      "step": 50,
+      "loss": 1.0371222496032715,
+      "validation_loss": 3.822359085083008
+    },
+    {
+      "step": 75,
+      "loss": 0.6502777934074402,
+      "validation_loss": 4.534668445587158
+    },
+    {
+      "step": 100,
+      "loss": 0.5410025119781494,
+      "validation_loss": 4.697717666625977
+    }
+  ],
+  "conclusion": "Small validation-loss difference; overfitting persists; no voice quality conclusion."
+}

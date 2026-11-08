@@ -1,0 +1,5 @@
+numpy>=1.26,<3
+soundfile>=0.12,<1
+pytest>=8,<10
+# Instale torch CPU separadamente conforme README. Microfone: pip install sounddevice
+rich>=13,<15
